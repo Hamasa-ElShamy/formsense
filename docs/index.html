@@ -31,11 +31,29 @@ h1{font-size:2.8rem;margin:0 0 8px;color:#4c1d95}.tag{color:var(--mut);font-size
 <main class="wrap">
 <section><h2>What it does</h2><p>Give FormSense a saved form page (or a public URL). It lists each field with what it means, what to enter, whether it is required and which document to have ready. Give it your planned answers and it checks length, format and options, and spots conflicts such as a national ID that does not match your birth date or gender.</p></section>
 <section><div class="grid"><div class="card"><b>Explains each field</b><div class="mut">Meaning, what to enter, required or not, document to have ready.</div></div><div class="card"><b>Arabic and English</b><div class="mut">Knows common field names in both languages.</div></div><div class="card"><b>Catches conflicts</b><div class="mut">ID number vs birth date and gender, status vs employer, dates, passwords.</div></div><div class="card"><b>Honest about unknowns</b><div class="mut">A field it does not know is reported as unknown, never invented.</div></div><div class="card"><b>Offline</b><div class="mut">Standard library only. Nothing leaves your computer.</div></div></div></section>
-<section><h2>Examples</h2><h3>Real output from the demo files in the repo</h3><pre><code>OCTOBER 12
-  10:30 AM  Created Graduation_Project.pdf   (/tmp/tcwork)
-  11:15 AM  Created architecture.py   (/tmp/tcwork)
-  12:00 PM  Created meeting_notes.docx   (/tmp/tcwork)
-  02:00 PM  Created project_presentation.pptx   (/tmp/tcwork)</code></pre></section>
+<section><h2>Examples</h2><h3>Real output from the demo files in the repo</h3><pre><code>$ formsense demo/scholarship.html --answers demo/answers.json
+FORM: Scholarship Application 2027  (12 fields, 10 required)
+
+1. Field: Full name *   [short text]  Required: YES (marked required in the form)
+   Meaning: Your full legal name.
+   Enter:   As written in your ID or passport, in the language the form asks for.
+   Rule: at most 60 characters
+
+2. Field: National ID number *   [short text]  Required: YES (marked required in the form)
+   Meaning: Your national ID number.
+   Enter:   Egyptian national ID: 14 digits, no spaces.
+   Have ready: National ID card
+   Rule: must match the pattern \d{14}
+
+...
+CHECK OF YOUR ANSWERS
+  ERROR: Email *: does not look like an email address
+  ERROR: GPA (out of 4) *: above the maximum 4
+  MISSING: CV (PDF only) *: required field has no answer
+  MISSING: terms: required field has no answer
+  CONFLICT: date of birth vs national ID: the ID number encodes 2003-01-01, you wrote 2002-05-14
+  CONFLICT: gender vs national ID: the ID number encodes female, you wrote male
+  CONFLICT: employment status vs employer: status is &#x27;Student&#x27; but an employer/company is filled in</code></pre></section>
 
 <section id="install"><h2>Install</h2><div class="os">
 <div class="card"><h3>Windows</h3><div class="mut">Install Python 3.9+ from python.org (tick "Add python.exe to PATH"), then in PowerShell:</div>
