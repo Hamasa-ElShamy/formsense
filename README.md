@@ -53,6 +53,10 @@ Save a page from your browser with Ctrl+S ("HTML only") if the form is behind a 
 - Conflict checks are a short list: ID number vs birth date and gender (Egyptian 14-digit layout: century digit, date, odd/even digit for gender, as publicly documented; not checked against any government system), employment status vs employer, end date before start date, two password fields that differ, plus the form's own limits (length, range, pattern, options). It cannot find a contradiction in free text.
 - It cannot tell you whether your answers will be accepted or are true.
 
+## Similar tools (honest comparison)
+
+[Form-Sherpa](https://github.com/Bipan101/Form-Sherpa) explains fields while it autofills using on-device AI. FormSense is the offline, rule-based opposite: no model, so every explanation is traceable, but it knows only about 20 field types and reads static HTML.
+
 ## Technical notes
 
 [ARCHITECTURE.md](ARCHITECTURE.md), Arabic and English. 9 pytest tests on the sample form (`pytest`): field parsing, label linking, radio groups, required detection, document hints, limits, unknown fields, the conflict checks, and a clean set of answers that passes. Output: [`demo/test-output.txt`](demo/test-output.txt).
