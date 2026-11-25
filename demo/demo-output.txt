@@ -1,0 +1,73 @@
+$ formsense demo/scholarship.html --answers demo/answers.json
+FORM: Scholarship Application 2027  (12 fields, 10 required)
+
+1. Field: Full name *   [short text]  Required: YES (marked required in the form)
+   Meaning: Your full legal name.
+   Enter:   As written in your ID or passport, in the language the form asks for.
+   Rule: at most 60 characters
+
+2. Field: National ID number *   [short text]  Required: YES (marked required in the form)
+   Meaning: Your national ID number.
+   Enter:   Egyptian national ID: 14 digits, no spaces.
+   Have ready: National ID card
+   Rule: must match the pattern \d{14}
+
+3. Field: Date of birth *   [date]  Required: YES (marked required in the form)
+   Meaning: Your date of birth.
+   Enter:   Same as your ID. The form may want a specific format (day/month/year).
+   Have ready: Birth certificate or ID
+
+4. Field: Email *   [email address]  Required: YES (marked required in the form)
+   Meaning: Your email address.
+   Enter:   An address you can read now. Confirmation codes and decisions are often sent here.
+
+5. Field: Mobile   [phone number]  Required: no
+   Meaning: A phone number the organisation can call or text.
+   Enter:   With country code if the form accepts it, for example +20 10 1234 5678.
+
+6. Field: Gender *   [choose one]  Required: YES (marked required in the form)
+   Meaning: Your gender as in your documents.
+   Enter:   Pick the option that matches your ID.
+   Rule: choose one of: male, female
+
+7. Field: Employment status *   [choose from a list]  Required: YES (marked required in the form)
+   Meaning: Where you work or worked.
+   Enter:   Company name, your position and the dates (from, to).
+   Have ready: Experience letter or contract (if asked)
+   Rule: choose one of: Employed, Unemployed, Student
+
+8. Field: Current employer (if applicable)   [short text]  Required: no
+   Meaning: Where you work or worked.
+   Enter:   Company name, your position and the dates (from, to).
+   Have ready: Experience letter or contract (if asked)
+
+9. Field: GPA (out of 4) *   [number]  Required: YES (marked required in the form)
+   Meaning: Your academic result.
+   Enter:   The value on your transcript, on the scale the form states.
+   Have ready: Transcript
+   Rule: allowed range 0 to 4
+
+10. Field: Personal statement *   [long text]  Required: YES (marked required in the form)
+   Meaning: Your gender as in your documents.
+   Enter:   Pick the option that matches your ID.
+   Rule: at most 500 characters
+
+11. Field: CV (PDF only) *   [file upload]  Required: YES (marked required in the form)
+   Meaning: Your gender as in your documents.
+   Enter:   Pick the option that matches your ID.
+   Have ready: a file (see accepted types)
+   Rule: accepted file types: .pdf
+
+12. Field: terms   [tick box]  Required: YES (marked required in the form)
+   Meaning: Your gender as in your documents.
+   Enter:   Pick the option that matches your ID.
+   Note: the form gives this field no label.
+
+CHECK OF YOUR ANSWERS
+  ERROR: Email *: does not look like an email address
+  ERROR: GPA (out of 4) *: above the maximum 4
+  MISSING: CV (PDF only) *: required field has no answer
+  MISSING: terms: required field has no answer
+  CONFLICT: date of birth vs national ID: the ID number encodes 2003-01-01, you wrote 2002-05-14
+  CONFLICT: gender vs national ID: the ID number encodes female, you wrote male
+  CONFLICT: employment status vs employer: status is 'Student' but an employer/company is filled in

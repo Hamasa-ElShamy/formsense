@@ -1,0 +1,14 @@
+<html><head><title>Scholarship Application 2027</title></head><body><form>
+<label for="fn">Full name *</label><input id="fn" name="full_name" required maxlength="60">
+<label for="nid">National ID number *</label><input id="nid" name="national_id" required pattern="\d{14}">
+<label for="dob">Date of birth *</label><input id="dob" type="date" name="dob" required>
+<label for="em">Email *</label><input id="em" type="email" name="email" required>
+<label for="ph">Mobile</label><input id="ph" type="tel" name="phone" placeholder="+20...">
+<fieldset><legend>Gender *</legend><label><input type="radio" name="gender" value="male" required>Male</label><label><input type="radio" name="gender" value="female">Female</label></fieldset>
+<label for="es">Employment status *</label><select id="es" name="employment_status" required><option>Employed</option><option>Unemployed</option><option>Student</option></select>
+<label for="emp">Current employer (if applicable)</label><input id="emp" name="employer">
+<label for="gpa">GPA (out of 4) *</label><input id="gpa" type="number" name="gpa" min="0" max="4" step="0.01" required>
+<label for="st">Personal statement *</label><textarea id="st" name="statement" required maxlength="500"></textarea>
+<label for="cv">CV (PDF only) *</label><input id="cv" type="file" name="cv" accept=".pdf" required>
+<input type="checkbox" name="terms" required> I agree to the terms
+<input type="hidden" name="csrf" value="x"><button type="submit">Send</button></form></body></html>
