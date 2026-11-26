@@ -1,5 +1,7 @@
 # FormSense
 
+[![tests](https://github.com/mohamed-elshamy-ai/formsense/actions/workflows/tests.yml/badge.svg)](https://github.com/mohamed-elshamy-ai/formsense/actions/workflows/tests.yml) ![tests: 9 passing](https://img.shields.io/badge/tests-9%20passing-brightgreen) ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
+
 Understand a web form before you fill it. FormSense reads the form's HTML, explains each field (what it means, what to enter, whether it is required, which document to have ready), and checks the answers you plan to give for mistakes and conflicts. Everything runs on your computer. No AI service is used.
 
 افهم الفورم قبل ما تملاه: الأداة بتقرا الفورم وبتشرحلك كل خانة (معناها، تكتب إيه، إجبارية ولا لا، محتاج أنهي مستند) وبتراجع إجاباتك على الأخطاء والتناقضات.
