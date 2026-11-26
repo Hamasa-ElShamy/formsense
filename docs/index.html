@@ -1,6 +1,8 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FormSense: For anyone facing an official form: FormSense explains each field - what it means, what to enter, which document to have ready - and checks your answers for mistakes before you submit.</title><meta name="description" content="Explains every field of a web form and checks your planned answers for mistakes and conflicts. No AI service.">
-<meta property="og:title" content="FormSense"><meta property="og:description" content="Explains every field of a web form and checks your planned answers for mistakes and conflicts. No AI service.">
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&amp;family=Work+Sans:wght@400;500;600&amp;family=IBM+Plex+Sans+Arabic:wght@400;600;700&amp;display=swap" rel="stylesheet"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>FormSense: For anyone facing an official form: FormSense explains each field - what it means, what to enter, which document to have ready - and checks your answers for mistakes before you submit.</title><meta content="Explains every field of a web form and checks your planned answers for mistakes and conflicts. No AI service." name="description"/>
+<meta content="FormSense" property="og:title"/><meta content="Explains every field of a web form and checks your planned answers for mistakes and conflicts. No AI service." property="og:description"/>
 <style>
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;font:16px/1.65 var(--body);background:var(--bg);color:var(--fg)}
@@ -45,15 +47,23 @@ h1{font-family:var(--head);font-size:clamp(2rem,8vw,2.8rem);overflow-wrap:break-
 .langtoggle{display:inline-flex;gap:4px;margin:0 0 14px;background:var(--card);border:1px solid var(--line);border-radius:99px;padding:4px}
 .langtoggle button{border:0;background:transparent;color:var(--mut);font:inherit;font-weight:600;min-height:44px;padding:8px 20px;border-radius:99px;cursor:pointer;transition:background .2s var(--ease-out),color .2s var(--ease-out)}
 .langtoggle button[aria-pressed="true"]{background:var(--acc);color:var(--accfg)}
-</style></head><body>
-<header class="hero"><div class="wrap"><h1>FormSense</h1><p class="tag">Understand the form before you fill it.</p>
-<a class="btn" href="https://github.com/mohamed-elshamy-ai/formsense">View on GitHub</a><a class="btn alt" href="#install">Install</a>
-<p class="mut" style="margin-top:16px">Open source &middot; MIT license &middot; early release v0.1.0</p></div></header>
-<main class="wrap">
-<section><div class="grid"><div class="card"><b>Explains each field</b><div class="mut">Meaning, what to enter, required or not, document to have ready.</div></div><div class="card"><b>Arabic and English</b><div class="mut">Knows common field names in both languages.</div></div><div class="card"><b>Catches conflicts</b><div class="mut">ID number vs birth date and gender, status vs employer, dates, passwords.</div></div><div class="card"><b>Honest about unknowns</b><div class="mut">A field it does not know is reported as unknown, never invented.</div></div><div class="card"><b>Offline</b><div class="mut">Standard library only. Nothing leaves your computer.</div></div></div></section>
-<section><h2>What it does</h2><p>Give FormSense a saved form page (or a public URL). It lists each field with what it means, what to enter, whether it is required and which document to have ready. Give it your planned answers and it checks length, format and options, and spots conflicts such as a national ID that does not match your birth date or gender.</p></section>
 
-<section><h2>Examples</h2><h3>Real output from the demo files in the repo</h3><pre><code>$ formsense demo/scholarship.html --answers demo/answers.json
+/* qa round 1: tokens for status colors, touch targets, RTL demo panels */
+footer a{display:inline-block;padding:14px 4px;min-height:44px;box-sizing:border-box}
+pre,code,.err,.q,.finder,.results,.redcard,.scan,.stack,.proof,.os pre{direction:ltr;text-align:left;unicode-bidi:isolate}
+pre,code,.err,.q{font-family:ui-monospace,Menlo,Consolas,monospace}
+html[dir=rtl] .q{font-family:var(--body)}
+.ok b{color:#17703f}.no b{color:#a8281b}
+html[dir=rtl] #install,html[dir=rtl] #install .card{direction:ltr;text-align:left}
+html[dir=rtl] *{letter-spacing:0!important;text-transform:none!important}
+</style></head><body>
+<header class="hero"><div class="wrap"><h1 data-ar="FormSense">FormSense</h1><p class="tag" data-ar="افهم الاستمارة قبل ما تملاها.">Understand the form before you fill it.</p>
+<a class="btn" data-ar="شوف الكود على GitHub" href="https://github.com/mohamed-elshamy-ai/formsense">View on GitHub</a><a class="btn alt" data-ar="التثبيت" href="#install">Install</a>
+<p class="mut" data-ar="مفتوحة المصدر · رخصة MIT · إصدار تجريبي v0.1.0" style="margin-top:16px">Open source · MIT license · early release v0.1.0</p></div></header>
+<main class="wrap">
+<section><div class="grid"><div class="card"><b data-ar="بتشرح كل خانة">Explains each field</b><div class="mut" data-ar="المعنى وإيه اللي تكتبه وهل إجبارية والمستند اللي تجهّزه.">Meaning, what to enter, required or not, document to have ready.</div></div><div class="card"><b data-ar="عربي وإنجليزي">Arabic and English</b><div class="mut" data-ar="بتعرف أسماء الخانات الشائعة بالعربي والإنجليزي.">Knows common field names in both languages.</div></div><div class="card"><b data-ar="بتمسك التعارض">Catches conflicts</b><div class="mut" data-ar="الرقم القومي مقابل تاريخ الميلاد والنوع، والحالة مقابل جهة العمل، والتواريخ، وكلمات السر.">ID number vs birth date and gender, status vs employer, dates, passwords.</div></div><div class="card"><b data-ar="صريحة في اللي متعرفوش">Honest about unknowns</b><div class="mut" data-ar="الخانة اللي متعرفهاش بتتبلّغ إنها مجهولة، ومش بتتألّف.">A field it does not know is reported as unknown, never invented.</div></div><div class="card"><b data-ar="من غير إنترنت">Offline</b><div class="mut" data-ar="مكتبة Python القياسية بس. مفيش حاجة بتخرج من جهازك.">Standard library only. Nothing leaves your computer.</div></div></div></section>
+<section><h2 data-ar="بتعمل إيه">What it does</h2><p data-ar="إدّي FormSense صفحة استمارة محفوظة (أو رابط عام). هتطلّعلك كل خانة ومعناها وإيه اللي تكتبه وهل هي إجبارية وأنهي مستند تجهّزه. وإدّيها إجاباتك المخططة هتفحص الطول والصيغة والاختيارات وتمسك التعارض، زي رقم قومي مش مطابق لتاريخ ميلادك أو نوعك.">Give FormSense a saved form page (or a public URL). It lists each field with what it means, what to enter, whether it is required and which document to have ready. Give it your planned answers and it checks length, format and options, and spots conflicts such as a national ID that does not match your birth date or gender.</p></section>
+<section><h2 data-ar="أمثلة">Examples</h2><h3 data-ar="ده ناتج حقيقي من ملفات التجربة اللي في المشروع">Real output from the demo files in the repo</h3><pre><code>$ formsense demo/scholarship.html --answers demo/answers.json
 FORM: Scholarship Application 2027  (12 fields, 10 required)
 
 1. Field: Full name *   [short text]  Required: YES (marked required in the form)
@@ -75,8 +85,7 @@ CHECK OF YOUR ANSWERS
   MISSING: terms: required field has no answer
   CONFLICT: date of birth vs national ID: the ID number encodes 2003-01-01, you wrote 2002-05-14
   CONFLICT: gender vs national ID: the ID number encodes female, you wrote male
-  CONFLICT: employment status vs employer: status is &#x27;Student&#x27; but an employer/company is filled in</code></pre></section>
-
+  CONFLICT: employment status vs employer: status is 'Student' but an employer/company is filled in</code></pre></section>
 <section id="install"><h2>Install</h2><div class="os">
 <div class="card"><h3>Windows</h3><div class="mut">Install Python 3.9+ from python.org (tick "Add python.exe to PATH"), then in PowerShell:</div>
 <pre><code>py -m pip install git+https://github.com/mohamed-elshamy-ai/formsense
@@ -92,9 +101,9 @@ pip install .
 formsense form.html --answers answers.json</code></pre><div><span class="ok"><b>Tested.</b></span> Tested on Linux (Python 3.10).</div></div>
 <div class="card"><h3>Android</h3><div><span class="no"><b>Not available.</b></span> Not available as an app or extension.</div></div>
 </div></section>
-<section class="how-section"><h2><span class="lang-en">How it works</span><span class="lang-ar" hidden>إزاي بيشتغل</span></h2><div class="langtoggle" role="group" aria-label="Language / اللغة"><button type="button" data-lang="en" aria-pressed="true">English</button><button type="button" data-lang="ar" aria-pressed="false">العربية</button></div><div class="lang-en"><ol><li>It parses the form HTML and links each field to its label.</li><li>Each field is matched against a hand-made table of common field types for its meaning and a document hint.</li><li>Required comes from the form&#x27;s own attribute or a * in the label; limits come from length, range, pattern, file types and options.</li><li>With your answers it checks each value against those limits.</li><li>It then compares answers with each other, for example the date inside an Egyptian national ID against your birth date.</li></ol>
+<section class="how-section"><h2><span class="lang-en">How it works</span><span class="lang-ar" hidden="">إزاي بيشتغل</span></h2><div aria-label="Language / اللغة" class="langtoggle" role="group"><button aria-pressed="true" data-lang="en" type="button">English</button><button aria-pressed="false" data-lang="ar" type="button">العربية</button></div><div class="lang-en"><ol><li>It parses the form HTML and links each field to its label.</li><li>Each field is matched against a hand-made table of common field types for its meaning and a document hint.</li><li>Required comes from the form's own attribute or a * in the label; limits come from length, range, pattern, file types and options.</li><li>With your answers it checks each value against those limits.</li><li>It then compares answers with each other, for example the date inside an Egyptian national ID against your birth date.</li></ol>
 </div><div class="card lang-ar" dir="rtl" lang="ar" style="text-align:start"><b>الشرح بالعربي</b><p>الأداة بتقرا كود الفورم وتربط كل خانة باسمها، وبتدور على معناها في جدول صغير مكتوب يدوي وبتقولك تكتب إيه ومحتاج مستند إيه. الإجباري بيتعرف من الفورم نفسه. لو كتبت إجاباتك بتراجعها على الحدود وبتقارنها ببعض (الرقم القومي مع تاريخ الميلاد والنوع مثلاً). الفورمات اللي بتتبني بـ JavaScript أو الصور مش مدعومة.</p></div></section>
-<section><h2>Honest limits</h2><div class="card warn"><ul><li>Static HTML only: JavaScript-built forms, images, PDFs and multi-step forms are not read.</li><li>About 20 known field types. Others are reported as unknown. No AI model.</li><li>&#x27;Required&#x27; comes from the page; server-side rules are invisible.</li><li>A short list of conflict rules. It cannot find contradictions in free text, and cannot tell if answers will be accepted.</li><li>Command line only: no browser extension yet.</li></ul></div></section>
+<section><h2 data-ar="حدودها بصراحة">Honest limits</h2><div class="card warn"><ul><li data-ar="HTML ثابت بس: الاستمارات المبنية بـ JavaScript والصور وPDF والاستمارات متعددة الخطوات مش بتتقرا.">Static HTML only: JavaScript-built forms, images, PDFs and multi-step forms are not read.</li><li data-ar="حوالي 20 نوع خانة معروف. الباقي بيتبلّغ إنه مجهول. ومفيش نموذج ذكاء اصطناعي.">About 20 known field types. Others are reported as unknown. No AI model.</li><li data-ar="«إجباري» بتيجي من الصفحة؛ قواعد السيرفر مش مرئية.">'Required' comes from the page; server-side rules are invisible.</li><li data-ar="قايمة قواعد تعارض قصيرة. مش بتلاقي تناقض في النص الحر، ومش بتعرف لو الإجابات هتتقبل.">A short list of conflict rules. It cannot find contradictions in free text, and cannot tell if answers will be accepted.</li><li data-ar="سطر أوامر بس: مفيش إضافة متصفح لسه.">Command line only: no browser extension yet.</li></ul></div></section>
 </main>
 <footer>Built by <a href="https://github.com/mohamed-elshamy-ai">Mohamed Elshamy</a>. Issues and pull requests are welcome on <a href="https://github.com/mohamed-elshamy-ai/formsense">GitHub</a>.</footer>
 <script>
@@ -105,6 +114,8 @@ formsense form.html --answers answers.json</code></pre><div><span class="ok"><b>
   document.querySelectorAll('.lang-ar').forEach(function(e){e.hidden=lang!=='ar'});
   document.querySelectorAll('.langtoggle button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lang===lang?'true':'false')});
   document.querySelectorAll('.how-section').forEach(function(s){s.dir=lang==='ar'?'rtl':'ltr'});
+  document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.querySelectorAll('[data-ar]').forEach(function(e){if(e.dataset.en===undefined)e.dataset.en=e.innerHTML;e.innerHTML=lang==='ar'?e.dataset.ar:e.dataset.en});
   try{localStorage.setItem(KEY,lang)}catch(e){}
  }
  var def=(navigator.language||'en').toLowerCase().indexOf('ar')===0?'ar':'en';
