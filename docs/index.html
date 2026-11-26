@@ -9,6 +9,7 @@ a{color:var(--acc)}code,pre{font-family:ui-monospace,Menlo,Consolas,monospace}
 pre{background:var(--code);color:var(--codefg);border:1px solid var(--line);border-radius:var(--r);padding:16px;overflow:auto;font-size:.86rem;line-height:1.5}
 .btn{display:inline-block;padding:11px 22px;border-radius:var(--r);background:var(--acc);color:var(--accfg);font-weight:600;text-decoration:none;margin:4px 8px 4px 0}
 .btn.alt{background:transparent;color:var(--fg);border:1px solid var(--line)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
 section{padding:26px 0}h2{font-family:var(--head);font-size:1.5rem;margin:0 0 14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 20px;margin:10px 0}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}.grid .card{margin:0}
@@ -29,8 +30,9 @@ h1{font-size:2.8rem;margin:0 0 8px;color:#4c1d95}.tag{color:var(--mut);font-size
 <a class="btn" href="https://github.com/mohamed-elshamy-ai/formsense">View on GitHub</a><a class="btn alt" href="#install">Install</a>
 <p class="mut" style="margin-top:16px">Open source &middot; MIT license &middot; early release v0.1.0</p></div></header>
 <main class="wrap">
-<section><h2>What it does</h2><p>Give FormSense a saved form page (or a public URL). It lists each field with what it means, what to enter, whether it is required and which document to have ready. Give it your planned answers and it checks length, format and options, and spots conflicts such as a national ID that does not match your birth date or gender.</p></section>
 <section><div class="grid"><div class="card"><b>Explains each field</b><div class="mut">Meaning, what to enter, required or not, document to have ready.</div></div><div class="card"><b>Arabic and English</b><div class="mut">Knows common field names in both languages.</div></div><div class="card"><b>Catches conflicts</b><div class="mut">ID number vs birth date and gender, status vs employer, dates, passwords.</div></div><div class="card"><b>Honest about unknowns</b><div class="mut">A field it does not know is reported as unknown, never invented.</div></div><div class="card"><b>Offline</b><div class="mut">Standard library only. Nothing leaves your computer.</div></div></div></section>
+<section><h2>What it does</h2><p>Give FormSense a saved form page (or a public URL). It lists each field with what it means, what to enter, whether it is required and which document to have ready. Give it your planned answers and it checks length, format and options, and spots conflicts such as a national ID that does not match your birth date or gender.</p></section>
+
 <section><h2>Examples</h2><h3>Real output from the demo files in the repo</h3><pre><code>$ formsense demo/scholarship.html --answers demo/answers.json
 FORM: Scholarship Application 2027  (12 fields, 10 required)
 
@@ -71,7 +73,7 @@ formsense form.html --answers answers.json</code></pre><div><span class="ok"><b>
 <div class="card"><h3>Android</h3><div><span class="no"><b>Not available.</b></span> Not available as an app or extension.</div></div>
 </div></section>
 <section><h2>How it works</h2><ol><li>It parses the form HTML and links each field to its label.</li><li>Each field is matched against a hand-made table of common field types for its meaning and a document hint.</li><li>Required comes from the form&#x27;s own attribute or a * in the label; limits come from length, range, pattern, file types and options.</li><li>With your answers it checks each value against those limits.</li><li>It then compares answers with each other, for example the date inside an Egyptian national ID against your birth date.</li></ol>
-<div class="card rtl"><b>الشرح بالعربي</b><p>الأداة بتقرا كود الفورم وتربط كل خانة باسمها، وبتدور على معناها في جدول صغير مكتوب يدوي وبتقولك تكتب إيه ومحتاج مستند إيه. الإجباري بيتعرف من الفورم نفسه. لو كتبت إجاباتك بتراجعها على الحدود وبتقارنها ببعض (الرقم القومي مع تاريخ الميلاد والنوع مثلاً). الفورمات اللي بتتبني بـ JavaScript أو الصور مش مدعومة.</p></div></section>
+<div class="card" dir="rtl" lang="ar" style="text-align:start"><b>الشرح بالعربي</b><p>الأداة بتقرا كود الفورم وتربط كل خانة باسمها، وبتدور على معناها في جدول صغير مكتوب يدوي وبتقولك تكتب إيه ومحتاج مستند إيه. الإجباري بيتعرف من الفورم نفسه. لو كتبت إجاباتك بتراجعها على الحدود وبتقارنها ببعض (الرقم القومي مع تاريخ الميلاد والنوع مثلاً). الفورمات اللي بتتبني بـ JavaScript أو الصور مش مدعومة.</p></div></section>
 <section><h2>Honest limits</h2><div class="card warn"><ul><li>Static HTML only: JavaScript-built forms, images, PDFs and multi-step forms are not read.</li><li>About 20 known field types. Others are reported as unknown. No AI model.</li><li>&#x27;Required&#x27; comes from the page; server-side rules are invisible.</li><li>A short list of conflict rules. It cannot find contradictions in free text, and cannot tell if answers will be accepted.</li><li>Command line only: no browser extension yet.</li></ul></div></section>
 </main>
 <footer><img src="author.jpg" alt="Mohamed Elshamy" width="64" height="64">Built by <a href="https://github.com/mohamed-elshamy-ai">Mohamed Elshamy</a>. Issues and pull requests are welcome on <a href="https://github.com/mohamed-elshamy-ai/formsense">GitHub</a>.</footer>
