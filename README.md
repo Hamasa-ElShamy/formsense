@@ -4,8 +4,6 @@
 
 Understand a web form before you fill it. FormSense reads the form's HTML, explains each field (what it means, what to enter, whether it is required, which document to have ready), and checks the answers you plan to give for mistakes and conflicts. Everything runs on your computer. No AI service is used.
 
-افهم الفورم قبل ما تملاه: الأداة بتقرا الفورم وبتشرحلك كل خانة (معناها، تكتب إيه، إجبارية ولا لا، محتاج أنهي مستند) وبتراجع إجاباتك على الأخطاء والتناقضات.
-
 ## Worked example
 
 Form: [`demo/scholarship.html`](demo/scholarship.html). Planned answers: [`demo/answers.json`](demo/answers.json). Real output: [`demo/demo-output.txt`](demo/demo-output.txt).
@@ -47,7 +45,7 @@ Save a page from your browser with Ctrl+S ("HTML only") if the form is behind a 
 | Windows / macOS | Should work, not tested. |
 | Android / browser extension | Not available. |
 
-## What it does NOT do (honest)
+## Limitations
 
 - It reads static HTML. Forms built by JavaScript (many single-page sites), forms inside images or PDFs, and multi-step forms where later fields appear after you answer are not seen. There is no screenshot/OCR mode and no browser extension yet.
 - The explanations come from a hand-made table of about 20 common field types (English and Arabic names). A field it does not know gets the honest line "No built-in explanation for this field name" plus its type and limits. It does not invent a meaning. There is no AI model.
@@ -55,7 +53,7 @@ Save a page from your browser with Ctrl+S ("HTML only") if the form is behind a 
 - Conflict checks are a short list: ID number vs birth date and gender (Egyptian 14-digit layout: century digit, date, odd/even digit for gender, as publicly documented; not checked against any government system), employment status vs employer, end date before start date, two password fields that differ, plus the form's own limits (length, range, pattern, options). It cannot find a contradiction in free text.
 - It cannot tell you whether your answers will be accepted or are true.
 
-## Similar tools (honest comparison)
+## Related tools
 
 [Form-Sherpa](https://github.com/Bipan101/Form-Sherpa) explains fields while it autofills using on-device AI. FormSense is the offline, rule-based opposite: no model, so every explanation is traceable, but it knows only about 20 field types and reads static HTML.
 
@@ -63,8 +61,6 @@ Save a page from your browser with Ctrl+S ("HTML only") if the form is behind a 
 
 [ARCHITECTURE.md](ARCHITECTURE.md), Arabic and English. 9 pytest tests on the sample form (`pytest`): field parsing, label linking, radio groups, required detection, document hints, limits, unknown fields, the conflict checks, and a clean set of answers that passes. Output: [`demo/test-output.txt`](demo/test-output.txt).
 
-## How it works (بالعربي)
+## How it works
 
-الأداة بتقرا كود HTML بتاع الفورم وبتطلع كل الحقول (input وselect وtextarea ومجموعات radio) وبتربط كل حقل بالـ label بتاعه. بعدين بتدور على اسم الحقل في جدول صغير مكتوب يدوي (الرقم القومي، الإيميل، الموبايل، جهة العمل، المعدل...) وبتقولك معناه وتكتب إيه ومحتاج مستند إيه. الحقل الإجباري بيتعرف من `required` أو علامة `*`. لو الحقل مش معروف بتقولك كده بصراحة ومش بتخمن. لو حطيت إجاباتك في ملف JSON بتراجع الطول والنمط والاختيارات، وبتقارن الإجابات ببعض (مثلاً الرقم القومي بيحتوي تاريخ الميلاد والنوع، فلو كتبت غيرهم بتطلع تناقض). الفورمات اللي بتتبني بـ JavaScript أو الصور مش مدعومة.
-
-MIT License.
+FormSense reads the form's HTML and extracts every field (input, select, textarea and radio groups), linking each field to its label. It then looks the field name up in a small hand-written table (national ID, email, mobile number, employer, GPA and so on) and tells you what it means, what to enter and which document you need. A field counts as required when it has the `required` attribute or a `*` mark. If a field is unknown, it says so instead of guessing. If you put your planned answers in a JSON file, it checks length, pattern and allowed choices, and compares answers with each other (for example an Egyptian national ID encodes the birth date and gender, so a mismatch is reported as a conflict). Forms built with JavaScript, and images, are not supported.
