@@ -14,9 +14,18 @@ def main(argv=None):
     g.add_argument("--ai-with-answers", action="store_true", help="also send your (masked) answers to look for problems")
     g.add_argument("--ai-dry-run", action="store_true", help="print exactly what would be sent, send nothing")
     o = ap.parse_args(argv)
-    title, fields = core.parse(core.fetch_html(o.source))
+    try: html = core.fetch_html(o.source)
+    except core.SourceError as e: sys.exit(f"formsense: {e}")
+    title, fields = core.parse(html)
+    if not fields:
+        sys.exit("formsense: no form fields found. The page may build its form with JavaScript, need a login, or not contain a form. Save the page after it has loaded (Ctrl+S, 'Webpage, complete') and try the saved file.")
     ex = [core.explain(f) for f in fields]
-    ans = json.load(open(o.answers, encoding="utf-8")) if o.answers else None
+    ans = None
+    if o.answers:
+        try: ans = json.load(open(o.answers, encoding="utf-8"))
+        except OSError as e: sys.exit(f"formsense: cannot read answers file: {e.strerror or e}")
+        except ValueError as e: sys.exit(f"formsense: the answers file is not valid JSON ({e}). Expected something like {{\"full name\": \"Ali Hassan\"}}.")
+        if not isinstance(ans, dict): sys.exit("formsense: the answers file must be a JSON object: {\"field name\": \"value\"}.")
     aires = aierr = None
     if o.ai:
         payload = ai.build_payload(title, fields, ex, ans if o.ai_with_answers else None)

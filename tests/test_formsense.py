@@ -30,3 +30,13 @@ def test_clean_answers():
     ok = {"full_name": "A B", "national_id": "30001011234577", "dob": "2000-01-01", "email": "a@b.co", "gender": "male", "employment_status": "Student",
           "gpa": "3.5", "statement": "x", "cv": "cv.pdf", "terms": "yes"}
     assert core.check(F, ok) == []
+
+
+def test_bad_inputs_exit_cleanly(tmp_path):
+    import subprocess, sys
+    e = tmp_path / "e.html"; e.write_text("just text")
+    j = tmp_path / "a.json"; j.write_text("{bad")
+    ok = tmp_path / "f.html"; ok.write_text("<form><input name=email type=email></form>")
+    for args in ([str(tmp_path / "missing.html")], [str(e)], [str(ok), "--answers", str(j)]):
+        r = subprocess.run([sys.executable, "run_formsense.py", *args], capture_output=True, text=True)
+        assert r.returncode != 0 and "Traceback" not in r.stderr and "formsense:" in r.stderr

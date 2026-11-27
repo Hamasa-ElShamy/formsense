@@ -22,12 +22,15 @@ KNOWLEDGE = [
     (r"password|كلمة المرور|كلمه السر", "A secret you will use to log in.", "Long and unique. Do not reuse another site's password.", None),
     (r"cv|resume|سيرة", "Your CV.", "Usually a PDF; check the size limit.", "CV file"),
     (r"statement|essay|cover.?letter|motivation|why|خطاب", "A written answer about you.", "Specific to this program or job. Check the length limit.", None),
-    (r"referee|reference|recommend|توصية", "A person who can vouch for you.", "Name, relation to you, email and phone. Ask them first.", None),
+    (r"referee|recommend|توصية|reference (?:name|letter|contact|person)|(?:professional|personal|character) reference", "A person who can vouch for you.", "Name, relation to you, email and phone. Ask them first.", None),
     (r"terms|agree|consent|موافق|الشروط", "Your agreement to the rules.", "Read the linked terms before ticking.", None),
 ]
 KIND_HINT = {"email": "email address", "tel": "phone number", "date": "date", "number": "number", "url": "web address",
              "file": "file upload", "password": "password", "checkbox": "tick box", "radio": "choose one", "select": "choose from a list",
              "textarea": "long text", "text": "short text"}
+ENTER_HINT = {"email": "An email address.", "tel": "A phone number.", "date": "A date, in the format the page shows.", "number": "A number.", "url": "A web address starting with https://.",
+              "file": "Choose a file to upload. Check the allowed types and size on the page.", "password": "A password.", "checkbox": "Tick it or leave it empty, as the page's text says.",
+              "radio": "Choose one of the listed options.", "select": "Choose one item from the list.", "textarea": "Free text. Check the length limit if the page names one.", "text": "Short text."}
 NEEDS_RE = re.compile(r"\*|required|إجباري|مطلوب", re.I)
 OPT_RE = re.compile(r"optional|if applicable|اختياري", re.I)
 HIDDEN_KINDS = {"hidden", "submit", "button", "reset", "image"}
@@ -127,7 +130,7 @@ def explain(f):
     return {"label": f["label"], "name": f["name"], "type": KIND_HINT.get(f["kind"], f["kind"]),
             "required": required, "required_source": req_src,
             "meaning": meaning or "No built-in explanation for this field name. Read the label and any help text on the page.",
-            "enter": enter or f"A {KIND_HINT.get(f['kind'], 'value')}.", "document": doc, "limits": notes,
+            "enter": enter or ENTER_HINT.get(f["kind"], "A value."), "document": doc, "limits": notes,
             "explained": bool(meaning), "label_missing": f["label_missing"]}
 
 
@@ -209,9 +212,22 @@ def check(fields, answers):
     return issues
 
 
+class SourceError(Exception): pass
+
+
 def fetch_html(src):
     if re.match(r"https?://", src):
-        import urllib.request
+        import urllib.request, urllib.error
         req = urllib.request.Request(src, headers={"User-Agent": "FormSense/0.1"})
-        return urllib.request.urlopen(req, timeout=20).read().decode("utf-8", "replace")
-    return open(src, encoding="utf-8", errors="replace").read()
+        try:
+            return urllib.request.urlopen(req, timeout=20).read().decode("utf-8", "replace")
+        except urllib.error.HTTPError as e:
+            raise SourceError(f"the site answered {e.code} {e.reason}. Some sites block scripts: save the page from your browser (Ctrl+S) and give formsense the .html file.")
+        except (urllib.error.URLError, OSError) as e:
+            raise SourceError(f"could not open the address ({getattr(e, 'reason', e)}). Check the link and your connection.")
+    try:
+        with open(src, "rb") as fh: raw = fh.read()
+    except OSError as e:
+        raise SourceError(f"cannot read '{src}': {e.strerror or e}")
+    if b"\0" in raw[:4096]: raise SourceError(f"'{src}' looks like a binary file, not an HTML page.")
+    return raw.decode("utf-8", errors="replace")
