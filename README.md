@@ -27,6 +27,8 @@ CHECK OF YOUR ANSWERS
   CONFLICT: employment status vs employer: status is 'Student' but an employer/company is filled in
 ```
 
+**Try it without installing:** [browser demo](https://mohamed-elshamy-ai.github.io/formsense/demo.html). Paste form HTML and answers; it runs the same Python in your browser via Pyodide (about 10 MB download the first time, loaded from jsDelivr). Nothing you paste is uploaded. The demo has no AI option.
+
 ## Install and use
 
 ```
