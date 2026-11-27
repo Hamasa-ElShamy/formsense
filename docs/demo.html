@@ -1,0 +1,77 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23222'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Work+Sans:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<title>FormSense live demo</title><meta name="description" content="Paste a form's HTML and your planned answers. FormSense runs in your browser; nothing is uploaded.">
+<style>
+*{box-sizing:border-box}
+:root{--bg:#f6f3ff;--fg:#1e1b3a;--mut:#5f5985;--card:#fff;--line:#ddd6f5;--acc:#7c3aed;--r:6px;--body:'Work Sans','IBM Plex Sans Arabic',system-ui,sans-serif;--head:'Archivo','IBM Plex Sans Arabic',system-ui,sans-serif}
+body{margin:0;font:16px/1.6 var(--body);background:var(--bg);color:var(--fg)}
+.wrap{max-width:1000px;margin:0 auto;padding:20px}
+h1{font-family:var(--head);color:#4c1d95;margin:.2em 0}
+.ar{font-family:'IBM Plex Sans Arabic',sans-serif;direction:rtl;text-align:right;color:var(--mut);margin:0 0 12px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:700px){.cols{grid-template-columns:1fr}}
+label.t{font-weight:600;display:block;margin-bottom:4px}
+textarea{width:100%;height:260px;font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;padding:10px;border:1px solid var(--line);border-radius:var(--r);background:#fff;color:var(--fg)}
+button{font:inherit;font-weight:600;background:#6d28d9;color:#fff;border:0;border-radius:var(--r);padding:12px 22px;min-height:44px;margin:12px 8px 12px 0;cursor:pointer;transition:transform .2s cubic-bezier(.22,1.36,.32,1)}
+button:hover:not(:disabled){transform:translateY(-2px)}button:disabled{opacity:.6;cursor:default}
+button.alt{background:#fff;color:var(--fg);border:1px solid var(--line)}
+#status{display:none;margin:10px 0;padding:12px 16px;border-radius:var(--r);border:1px solid var(--line);background:#fff;border-left:5px solid var(--acc)}
+#status.show{display:flex;align-items:center;gap:10px}#status.err{border-left-color:#c0392b;color:#7f1d1d;background:#fdf1f0}#status.ok{border-left-color:#1a7f4b;color:#14532d;background:#f0faf4}
+.spin{width:16px;height:16px;border:2px solid var(--acc);border-top-color:transparent;border-radius:50%;animation:rot .8s linear infinite;flex:none}@keyframes rot{to{transform:rotate(360deg)}}
+pre#out{background:#1e1b3a;color:#e9e3ff;border-radius:var(--r);padding:16px;overflow:auto;font-size:.85rem;line-height:1.5;min-height:120px;white-space:pre-wrap;overflow-wrap:anywhere}
+a{color:#5b21b6}:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body><div class="wrap">
+<h1>FormSense live demo</h1>
+<p class="ar">الصق كود HTML بتاع استمارة وإجاباتك المخططة. كله بيشتغل في المتصفح ومفيش حاجة بتترفع.</p>
+<p>Paste a saved form's HTML and, if you like, your planned answers as JSON. FormSense runs <b>in your browser</b> (Python via Pyodide); nothing is uploaded. This page has no AI option. The same rules as the <a href="index.html#install">command-line tool</a> run here. <a href="index.html">Back</a></p>
+<div class="cols"><div><label class="t" for="f">Form HTML</label><textarea id="f" spellcheck="false"></textarea></div><div><label class="t" for="a">Planned answers (JSON, optional)</label><textarea id="a" spellcheck="false"></textarea></div></div>
+<button id="go">Load engine and explain (about 10 MB, first time only)</button><button class="alt" id="ex">Load example</button>
+<div id="status" role="status" aria-live="polite"></div>
+<pre id="out" aria-label="result">The explanation will appear here. Nothing leaves your browser.</pre>
+</div>
+<script>
+const FORM="<html><head><title>Scholarship Application 2027<\/title><\/head><body><form>\n<label for=\"fn\">Full name *<\/label><input id=\"fn\" name=\"full_name\" required maxlength=\"60\">\n<label for=\"nid\">National ID number *<\/label><input id=\"nid\" name=\"national_id\" required pattern=\"\\d{14}\">\n<label for=\"dob\">Date of birth *<\/label><input id=\"dob\" type=\"date\" name=\"dob\" required>\n<label for=\"em\">Email *<\/label><input id=\"em\" type=\"email\" name=\"email\" required>\n<label for=\"ph\">Mobile<\/label><input id=\"ph\" type=\"tel\" name=\"phone\" placeholder=\"+20...\">\n<fieldset><legend>Gender *<\/legend><label><input type=\"radio\" name=\"gender\" value=\"male\" required>Male<\/label><label><input type=\"radio\" name=\"gender\" value=\"female\">Female<\/label><\/fieldset>\n<label for=\"es\">Employment status *<\/label><select id=\"es\" name=\"employment_status\" required><option>Employed<\/option><option>Unemployed<\/option><option>Student<\/option><\/select>\n<label for=\"emp\">Current employer (if applicable)<\/label><input id=\"emp\" name=\"employer\">\n<label for=\"gpa\">GPA (out of 4) *<\/label><input id=\"gpa\" type=\"number\" name=\"gpa\" min=\"0\" max=\"4\" step=\"0.01\" required>\n<label for=\"st\">Personal statement *<\/label><textarea id=\"st\" name=\"statement\" required maxlength=\"500\"><\/textarea>\n<label for=\"cv\">CV (PDF only) *<\/label><input id=\"cv\" type=\"file\" name=\"cv\" accept=\".pdf\" required>\n<input type=\"checkbox\" name=\"terms\" required> I agree to the terms\n<input type=\"hidden\" name=\"csrf\" value=\"x\"><button type=\"submit\">Send<\/button><\/form><\/body><\/html>\n";
+const ANS="{\"full_name\":\"Mohamed Example\",\"national_id\":\"30301011234567\",\"dob\":\"2002-05-14\",\"email\":\"mohamed.example.com\",\"gender\":\"male\",\"employment_status\":\"Student\",\"employer\":\"Acme Ltd\",\"gpa\":\"4.6\",\"statement\":\"I want to study AI because...\"}\n";
+const $=id=>document.getElementById(id);
+$('ex').onclick=()=>{$('f').value=FORM;$('a').value=ANS};$('ex').onclick();
+const workerSrc=`
+let py=null;
+async function boot(base){
+  importScripts('https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js');
+  py=await loadPyodide();
+  py.FS.mkdir('/app');py.FS.mkdir('/app/formsense');
+  for(const f of ['__init__','core','cli','ai']){
+    const r=await fetch(base+'py/formsense/'+f+'.py');
+    if(!r.ok)throw new Error('file '+f+'.py failed to load (HTTP '+r.status+')');
+    const t=await r.text();
+    if(t.trimStart().startsWith('<'))throw new Error('file '+f+'.py came back as a web page, not Python');
+    py.FS.writeFile('/app/formsense/'+f+'.py',t);
+  }
+  py.runPython("import sys; sys.path.insert(0,'/app')");
+}
+onmessage=async e=>{
+  try{
+    if(!py){postMessage({type:'status',text:'First run: downloading the Python engine (about 10 MB, once). Everything runs on your device.'});await boot(e.data.base);}
+    postMessage({type:'status',text:'Reading the form...'});
+    py.FS.writeFile('/tmp/form.html',e.data.f);
+    let args="['/tmp/form.html']";
+    if(e.data.a.trim()){py.FS.writeFile('/tmp/a.json',e.data.a);args="['/tmp/form.html','--answers','/tmp/a.json']";}
+    const out=py.runPython("import io,contextlib\\nfrom formsense import cli\\nb=io.StringIO()\\nwith contextlib.redirect_stdout(b):\\n    try: cli.main("+args+")\\n    except SystemExit: pass\\nb.getvalue()");
+    postMessage({type:'done',out});
+  }catch(err){postMessage({type:'error',text:String(err&&err.message||err)})}
+};`;
+let w=null;
+$('go').onclick=()=>{
+  if(!w)w=new Worker(URL.createObjectURL(new Blob([workerSrc],{type:'text/javascript'})));
+  $('go').disabled=true;$('status').className='show';$('status').innerHTML='<span class=spin></span><span>Starting...</span>';
+  w.onmessage=e=>{
+    if(e.data.type==='status'){$('status').className='show';$('status').innerHTML='<span class=spin></span><span>'+e.data.text+'</span>';}
+    if(e.data.type==='done'){$('out').textContent=e.data.out;$('status').className='show ok';$('status').textContent='Done. Edit and press Explain again (instant now).';$('go').disabled=false;$('go').textContent='Explain';}
+    if(e.data.type==='error'){$('status').className='show err';$('status').textContent='Could not run: '+e.data.text+' (invalid answers JSON also lands here). Try a current Chrome, Edge, Firefox or Safari.';$('go').disabled=false;}
+  };
+  w.postMessage({type:'run',f:$('f').value,a:$('a').value,base:new URL('.',location.href).href});
+};
+if(location.hash==='#autorun')$('go').click();
+</script></body></html>
