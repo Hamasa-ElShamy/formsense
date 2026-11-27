@@ -1,6 +1,6 @@
 # FormSense
 
-[![tests](https://github.com/mohamed-elshamy-ai/formsense/actions/workflows/tests.yml/badge.svg)](https://github.com/mohamed-elshamy-ai/formsense/actions/workflows/tests.yml) ![tests: 9 passing](https://img.shields.io/badge/tests-9%20passing-brightgreen) ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
+[![tests](https://github.com/mohamed-elshamy-ai/formsense/actions/workflows/tests.yml/badge.svg)](https://github.com/mohamed-elshamy-ai/formsense/actions/workflows/tests.yml) ![tests: 15 passing](https://img.shields.io/badge/tests-15%20passing-brightgreen) ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
 
 Understand a web form before you fill it. FormSense reads the form's HTML, explains each field (what it means, what to enter, whether it is required, which document to have ready), and checks the answers you plan to give for mistakes and conflicts. By default everything runs on your computer and no AI is used. An optional AI helper exists and is off unless you turn it on (see [Optional AI help](#optional-ai-help-off-by-default)).
 
