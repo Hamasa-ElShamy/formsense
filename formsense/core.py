@@ -78,7 +78,7 @@ class _F(HTMLParser):
     def handle_data(self, d):
         if self.in_title: self.title += d
         if self.in_legend: self.legend += d
-        if self.cur_label is not None: self.cur_label["text"] += d
+        if self.cur_label is not None and self.sel is None: self.cur_label["text"] += d
         if self.sel is not None and self.sel["options"] and not d.isspace(): self.sel["options"][-1] += d.strip()
 
 
@@ -199,7 +199,7 @@ def check(fields, answers):
         issues.append(("CONFLICT", "employment status vs employer", f"status is '{es}' but an employer/company is filled in"))
     if es and ck is not None and not cv and re.fullmatch(r"(?i)employed|full.?time|part.?time|موظف", es):
         issues.append(("CONFLICT", "employment status vs employer", f"status is '{es}' but no employer is given"))
-    sk, sv = find(r"start|from|بداية|من تاريخ"); ek2, ev = find(r"\bend\b|\bto\b|until|نهاية|إلى تاريخ")
+    sk, sv = find(r"start|from|arriv|check.?in|بداية|من تاريخ"); ek2, ev = find(r"\bend\b|\bto\b|until|depart|check.?out|نهاية|إلى تاريخ")
     try:
         if sv and ev and datetime.date.fromisoformat(ev) < datetime.date.fromisoformat(sv):
             issues.append(("CONFLICT", "dates", f"end date {ev} is before start date {sv}"))

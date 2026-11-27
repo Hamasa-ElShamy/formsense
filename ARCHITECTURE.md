@@ -5,6 +5,6 @@
 - `check(fields, answers)`: per-field checks (missing required, length, range, pattern, email shape, option membership), then cross-field rules found by field name: `nid_info()` decodes the 14-digit Egyptian ID (digit 1 = century 2 or 3, digits 2 to 7 = YYMMDD, digit 13 odd = male) to compare with birth date and gender; employment status vs employer; end before start; password vs confirmation.
 - `cli.py`: prints the explanation, then the check; exit code 1 if issues exist.
 
-**Decisions**: no AI model, so every statement can be traced to a rule; unknown fields are reported as unknown; a conflict names both values.
+**Decisions**: no AI model in the default path, so every statement can be traced to a rule; an optional, off-by-default AI step (`ai.py`) prints separate, labelled, unverified notes and never alters rule results; unknown fields are reported as unknown; a conflict names both values.
 
 **Limits**: static HTML only, a table of about 20 field types, a short list of conflict rules, nothing that needs JavaScript, OCR or a browser.
