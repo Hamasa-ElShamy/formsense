@@ -1,6 +1,6 @@
 # FormSense
 
-[![tests](https://github.com/mohamed-elshamy-ai/formsense/actions/workflows/tests.yml/badge.svg)](https://github.com/mohamed-elshamy-ai/formsense/actions/workflows/tests.yml) ![tests: 15 passing](https://img.shields.io/badge/tests-15%20passing-brightgreen) ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
+[![tests](https://github.com/Hamasa-ElShamy/formsense/actions/workflows/tests.yml/badge.svg)](https://github.com/Hamasa-ElShamy/formsense/actions/workflows/tests.yml) ![tests: 15 passing](https://img.shields.io/badge/tests-15%20passing-brightgreen) ![license: MIT](https://img.shields.io/badge/license-MIT-blue)
 
 Understand a web form before you fill it. FormSense reads the form's HTML, explains each field (what it means, what to enter, whether it is required, which document to have ready), and checks the answers you plan to give for mistakes and conflicts. By default everything runs on your computer and no AI is used. An optional AI helper exists and is off unless you turn it on (see [Optional AI help](#optional-ai-help-off-by-default)).
 
@@ -27,14 +27,14 @@ CHECK OF YOUR ANSWERS
   CONFLICT: employment status vs employer: status is 'Student' but an employer/company is filled in
 ```
 
-**Try it without installing:** [browser demo](https://mohamed-elshamy-ai.github.io/formsense/demo.html). Paste form HTML and answers; it runs the same Python in your browser via Pyodide (about 10 MB download the first time, loaded from jsDelivr). Nothing you paste is uploaded. The demo has no AI option.
+**Try it without installing:** [browser demo](https://hamasa-elshamy.github.io/formsense/demo.html). Paste form HTML and answers; it runs the same Python in your browser via Pyodide (about 10 MB download the first time, loaded from jsDelivr). Nothing you paste is uploaded. The demo has no AI option.
 
-**No Python?** Download a standalone file from [Releases](https://github.com/mohamed-elshamy-ai/formsense/releases/tag/v0.2.1) (Linux, Windows, macOS Apple-silicon). They are **not code-signed**: Windows SmartScreen and macOS Gatekeeper will probably warn, and you can compare the file with `SHA256SUMS.txt`. Built by GitHub Actions from the tag; only the Linux file was run by a person (it printed correct output on the demo). The Windows and macOS files passed an automatic `--help` check only.
+**No Python?** Download a standalone file from [Releases](https://github.com/Hamasa-ElShamy/formsense/releases/tag/v0.2.1) (Linux, Windows, macOS Apple-silicon). They are **not code-signed**: Windows SmartScreen and macOS Gatekeeper will probably warn, and you can compare the file with `SHA256SUMS.txt`. Built by GitHub Actions from the tag; only the Linux file was run by a person (it printed correct output on the demo). The Windows and macOS files passed an automatic `--help` check only.
 
 ## Install and use
 
 ```
-git clone https://github.com/mohamed-elshamy-ai/formsense && cd formsense
+git clone https://github.com/Hamasa-ElShamy/formsense && cd formsense
 pip install .
 formsense form.html                          # explain every field of a saved page
 formsense https://example.org/apply          # or a URL (public pages only)
